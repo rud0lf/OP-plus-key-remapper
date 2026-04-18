@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Plus hero: vertical bar (pill) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,26 A6,6 0 0 1 60,32 L60,56 A6,6 0 0 1 54,62 A6,6 0 0 1 48,56 L48,32 A6,6 0 0 1 54,26 Z" />
+
+    <!-- Plus hero: horizontal bar (pill) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M42,38 L66,38 A6,6 0 0 1 72,44 A6,6 0 0 1 66,50 L42,50 A6,6 0 0 1 36,44 A6,6 0 0 1 42,38 Z" />
+
+    <!-- "15" badge chip -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M44,68 L64,68 A8,8 0 0 1 72,76 A8,8 0 0 1 64,84 L44,84 A8,8 0 0 1 36,76 A8,8 0 0 1 44,68 Z" />
+
+    <!-- Digit "1" in OnePlus red -->
+    <path
+        android:fillColor="#E2002B"
+        android:pathData="M47,72.5 L50,71 L51,71 L51,79 L53,79 L53,81 L46,81 L46,79 L49,79 L49,72.5 L47,73.5 Z" />
+
+    <!-- Digit "5" in OnePlus red -->
+    <path
+        android:fillColor="#E2002B"
+        android:pathData="M55,71 L61,71 L61,72.5 L56.5,72.5 L56.5,75 L61,75 L61,81 L55,81 L55,79.5 L59.5,79.5 L59.5,76.5 L55,76.5 Z" />
+</vector>
