@@ -639,7 +639,7 @@ public class PlusKeyMonitorService extends Service {
             }
             try {
                 long raw = Long.parseLong(Objects.requireNonNull(matcher.group(1)));
-                return raw > 1_000_000_000_000L ? raw / 1_000_000L : raw;
+                return raw / 1_000_000L;
             } catch (NumberFormatException ignored) {
                 return 0L;
             }
