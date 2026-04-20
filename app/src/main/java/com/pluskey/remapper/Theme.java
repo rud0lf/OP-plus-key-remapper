@@ -8,6 +8,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -67,7 +68,6 @@ final class Theme {
 
     static TextView body(Context context, String value) {
         TextView view = text(context, value, 15f, COLOR_TEXT_SECONDARY, Typeface.NORMAL);
-        view.setIncludeFontPadding(false);
         view.setLineSpacing(0f, 1.38f);
         return view;
     }
@@ -121,6 +121,22 @@ final class Theme {
         pill.setText(value);
         pill.setTextColor(textColor);
         pill.setBackground(roundedFill(context, fillColor, 999));
+    }
+
+    static void applyEdgeInsets(View outer, View padded, int horizontalDp, int topDp, int bottomDp) {
+        Context context = padded.getContext();
+        int horizontal = dp(context, horizontalDp);
+        int top = dp(context, topDp);
+        int bottom = dp(context, bottomDp);
+        padded.setPadding(horizontal, top, horizontal, bottom);
+        outer.setOnApplyWindowInsetsListener((view, insets) -> {
+            padded.setPadding(
+                    horizontal + insets.getSystemWindowInsetLeft(),
+                    top + insets.getSystemWindowInsetTop(),
+                    horizontal + insets.getSystemWindowInsetRight(),
+                    bottom + insets.getSystemWindowInsetBottom());
+            return insets;
+        });
     }
 
     static LinearLayout.LayoutParams block(Context context, int left, int top, int right, int bottom) {

@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
 
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setPadding(Theme.dp(this, 24), Theme.dp(this, 40), Theme.dp(this, 24), Theme.dp(this, 32));
+        Theme.applyEdgeInsets(scrollView, root, 24, 40, 32);
         scrollView.addView(root, new ScrollView.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));

@@ -1,6 +1,7 @@
 package com.pluskey.remapper;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -121,9 +123,7 @@ public class PlusKeyMonitorService extends Service {
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
 
-        Notification.Builder builder = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
-                ? new Notification.Builder(this, CHANNEL_ID)
-                : new Notification.Builder(this);
+        Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID);
 
         return builder
                 .setSmallIcon(R.drawable.ic_notification)
@@ -137,9 +137,6 @@ public class PlusKeyMonitorService extends Service {
     }
 
     private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            return;
-        }
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (notificationManager == null) {
@@ -154,6 +151,7 @@ public class PlusKeyMonitorService extends Service {
         notificationManager.createNotificationChannel(channel);
     }
 
+    @SuppressLint("WakelockTimeout")
     private void acquireWakeLock() {
         if (wakeLock != null && wakeLock.isHeld()) {
             return;
@@ -165,6 +163,7 @@ public class PlusKeyMonitorService extends Service {
         }
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, WAKE_LOCK_TAG);
         wakeLock.setReferenceCounted(false);
+        // Held for the lifetime of this foreground service; released in onDestroy.
         wakeLock.acquire();
     }
 
@@ -289,7 +288,7 @@ public class PlusKeyMonitorService extends Service {
         }
         if (nextMode == AudioManager.RINGER_MODE_NORMAL) {
             playRingerBeep();
-        } else if (nextMode == AudioManager.RINGER_MODE_VIBRATE) {
+        } else {
             vibrateForFeedback(500L);
         }
         return label;
@@ -639,7 +638,7 @@ public class PlusKeyMonitorService extends Service {
                 return 0L;
             }
             try {
-                long raw = Long.parseLong(matcher.group(1));
+                long raw = Long.parseLong(Objects.requireNonNull(matcher.group(1)));
                 return raw > 1_000_000_000_000L ? raw / 1_000_000L : raw;
             } catch (NumberFormatException ignored) {
                 return 0L;
